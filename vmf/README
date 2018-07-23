@@ -1,0 +1,1 @@
+g++ -o test test.cpp vmf_distribution.cpp newbessel.cc -I/usr/local/include -L/usr/local/lib -lntl -lm

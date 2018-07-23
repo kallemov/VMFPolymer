@@ -1,0 +1,43 @@
+DISPLAY_VMF.M
+% Matlab/Octave program that generates dataset.dat file.
+% Output file format: 
+%   first line - dimension
+%   second line - number of points
+%   following lines - points (x, y, z coordinates)
+% Dependencies:
+%   display_vmf.m
+%    |__vsamp.m
+%    |__unitrand.m
+%    |__house.m 
+
+MOVMF.CPP
+% Serial mixture of von Mises-Fisher
+% Input file - dataset.dat
+% Dependencise
+%   movmf.cpp
+%    |__movmf.hpp
+%    |__newbessel.cc   depends on NTL library www.shoup.net/ntl
+%    |__newbessel.h
+
+CMOVMF.CU
+% Parallel mixture of von Mises-Fisher
+% Input file - dataset.dat
+% Dependencise
+%   cmovmf.cu
+%    |__cmovmf.hpp
+%    |__newbessel.cc   depends on NTL library www.shoup.net/ntl
+%    |__newbessel.h
+
+
+%Command (in Matlab/Octave) to generate dataset.dat file:
+display_vmf
+
+%Command to compile movmf.cpp (Prerequisite: NTL library have to be installed)
+g++ movmf.cpp newbessel.cc -o movmf -I/usr/local/include -L/usr/local/lib -lntl -lm
+%Run
+./movmf
+
+%Command to compile cmovmf.cu (Prerequisites: NVCC compiler, NTL library)
+nvcc  cmovmf.cu newbessel.cc -o cuda_movmf -I/usr/local/include -L/usr/local/lib -lntl -lm
+%Run
+./cuda_movmf
